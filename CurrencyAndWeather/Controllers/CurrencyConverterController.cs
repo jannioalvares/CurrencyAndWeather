@@ -7,39 +7,37 @@ namespace CurrencyAndWeather.Controllers
     [ApiController]
     public class CurrencyConverterController : ControllerBase
     {
-        private readonly string exchangeRateApiUrl = "https://v6.exchangerate-api.com/v6/ad7a23b99163f9122b4f887a/latest/";
-
         private readonly Dictionary<string, string> cityMapping = new Dictionary<string, string>
-    {
-        { "IDR", "jakarta" },
-        { "USD", "newyork" },
-        { "JPY", "tokyo" },
-        { "EUR", "manchester" },
-        { "SGD", "singapore" },
-        { "MYR", "kualalumpur" },
-        { "CAD", "ottawa" },
-        { "AUD", "canberra" },
-        { "GBP", "london" },
-        { "CNY", "beijing" },
-        { "INR", "newdelhi" },
-        { "NZD", "wellington" },
-        { "CHF", "bern" },
-        { "KRW", "seoul" },
-        { "BRL", "brasília" },
-        { "RUB", "moscow" },
-        { "ZAR", "pretoria" },
-        { "SEK", "stockholm" },
-        { "AED", "abudhabi" },
-        { "ARS", "buenosaires" },
-        { "MXN", "mexicocity" }
-    };
-
+        {
+            { "IDR", "jakarta" },
+            { "USD", "newyork" },
+            { "JPY", "tokyo" },
+            { "EUR", "paris" },
+            { "SGD", "singapore" },
+            { "MYR", "kualalumpur" },
+            { "CAD", "ottawa" },
+            { "AUD", "canberra" },
+            { "GBP", "london" },
+            { "CNY", "beijing" },
+            { "INR", "newdelhi" },
+            { "NZD", "wellington" },
+            { "CHF", "bern" },
+            { "KRW", "seoul" },
+            { "BRL", "brasília" },
+            { "RUB", "moscow" },
+            { "ZAR", "pretoria" },
+            { "SEK", "stockholm" },
+            { "AED", "abudhabi" },
+            { "ARS", "buenosaires" },
+            { "MXN", "mexicocity" }
+        };
+        
         [HttpGet("{fromCurrency}/{toCurrency}/{amount}")]
         public async Task<IActionResult> ConvertCurrency(string fromCurrency, string toCurrency, decimal amount)
         {
             using (var httpClient = new HttpClient())
             {
-                var api = exchangeRateApiUrl + fromCurrency;
+                var api = "https://v6.exchangerate-api.com/v6/ad7a23b99163f9122b4f887a/latest/" + fromCurrency;
                 var response = await httpClient.GetAsync(api);
 
                 if (response.IsSuccessStatusCode)
@@ -95,7 +93,7 @@ namespace CurrencyAndWeather.Controllers
                             }
                         }
 
-                        return NotFound($"City for currency code '{toCurrency}' not found or weather data not available");
+                        return NotFound($"City for currency code '{toCurrency}' not found");
                     }
 
                     return NotFound($"Currency code '{toCurrency}' not found");
